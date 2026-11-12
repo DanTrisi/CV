@@ -33,7 +33,7 @@
   {}{0em}
   {\textcolor{accentcolor}{\rule[0.02em]{0.6em}{0.6em}}\hspace{0.5em}\MakeUppercase}
   [{\color{rulecolor}\titlerule}]
-\titlespacing*{\section}{0pt}{11pt}{5pt}
+\titlespacing*{\section}{0pt}{9pt}{4pt}
 
 \setlist{nosep, leftmargin=1.4em, topsep=2pt}
 \setlist[itemize]{label=\textcolor{accentcolor}{\textbullet}}
@@ -48,6 +48,10 @@
 \newcommand{\entry}[4]{%
   \textbf{#1} \hfill \cvdate{#2}\\
   {\color{mutedcolor}#3} \hfill #4\par}
+% \entrytitle{Titolo}{Date}  (voce senza sottotitolo)
+\newcommand{\entrytitle}[2]{\textbf{#1} \hfill \cvdate{#2}\par}
+% \entryinline{Titolo}{Date}{Dettaglio}  (tutto su una riga)
+\newcommand{\entryinline}[3]{\textbf{#1}\ {\color{mutedcolor}-- #3} \hfill \cvdate{#2}\par}
 
 \begin{document}
 
@@ -75,7 +79,7 @@
   \begin{tikzpicture}
     \begin{scope}
       \clip (0,0) circle (1.38cm);
-      \node at (0,0) {\includegraphics[width=2.76cm]{\VAR{ photo }}};
+      \node at (0,-\VAR{ cv.meta.photo_pdf_shift|default(0) }cm) {\includegraphics[width=2.76cm]{\VAR{ photo }}};
     \end{scope}
     \draw[accentcolor, line width=1.4pt] (0,0) circle (1.43cm);
   \end{tikzpicture}
@@ -95,25 +99,20 @@
 \BLOCK{ endif }
 \BLOCK{ if not loop.last }
 
-\vspace{6pt}
+\vspace{4pt}
 \BLOCK{ endif }
 \BLOCK{ endfor }
-
-% --- CORSI ---
-\section{\VAR{ cv.labels.coursework|t }}
-
-\begin{itemize}
-\BLOCK{ for c in cv.coursework }
-    \item \VAR{ c|t }
-\BLOCK{ endfor }
-\end{itemize}
 
 % --- PROGETTI ---
 \section{\VAR{ cv.labels.projects|t }}
 
 \BLOCK{ for p in cv.projects }
+\BLOCK{ if p.place }
 \entry{\VAR{ p.title|t }}{\VAR{ p.dates|t }}
 {\VAR{ p.place|t }}{}
+\BLOCK{ else }
+\entrytitle{\VAR{ p.title|t }}{\VAR{ p.dates|t }}
+\BLOCK{ endif }
 \begin{itemize}
 \BLOCK{ for b in p.bullets }
     \item \VAR{ b|t }
@@ -121,7 +120,22 @@
 \end{itemize}
 \BLOCK{ if not loop.last }
 
-\vspace{6pt}
+\vspace{4pt}
+\BLOCK{ endif }
+\BLOCK{ endfor }
+
+% --- ESPERIENZE ---
+\section{\VAR{ cv.labels.experience|t }}
+
+\BLOCK{ for x in cv.experience }
+\BLOCK{ if x.place }
+\entryinline{\VAR{ x.title|t }}{\VAR{ x.dates|t }}{\VAR{ x.place|t }}
+\BLOCK{ else }
+\entrytitle{\VAR{ x.title|t }}{\VAR{ x.dates|t }}
+\BLOCK{ endif }
+\BLOCK{ if not loop.last }
+
+\vspace{1pt}
 \BLOCK{ endif }
 \BLOCK{ endfor }
 
@@ -135,10 +149,14 @@
 \end{itemize}
 
 % --- LINGUE ---
-\section{\VAR{ cv.labels.languages|t }}
+\section{\VAR{ cv.labels.languages_other|t }}
 
 \BLOCK{ for l in cv.languages }
 \cvstrong{\VAR{ l.name|t }:} \VAR{ l.level|t }\BLOCK{ if not loop.last }\sep\BLOCK{ endif }
+\BLOCK{ endfor }
+\par
+\BLOCK{ for o in cv.other }
+\VAR{ o|t }\BLOCK{ if not loop.last }\sep\BLOCK{ endif }
 \BLOCK{ endfor }
 
 
@@ -147,7 +165,7 @@
 
 \begin{itemize}
 \BLOCK{ for a in cv.awards }
-    \item \VAR{ a.text|t } \hfill \cvdate{\VAR{ a.year|t }}
+    \item \VAR{ a.text|t } \hfill \cvdate{\mbox{\VAR{ a.year|t }}}
 \BLOCK{ endfor }
 \end{itemize}
 

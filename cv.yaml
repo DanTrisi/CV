@@ -5,6 +5,7 @@
 #  - Ogni testo traducibile ha le due chiavi  it:  ed  en:
 #  - Formattazione ammessa nei testi:  **grassetto**  e  *corsivo*
 #  - Scrivi testo normale: i caratteri speciali (& % _ #) vengono gestiti da build.py
+#  - Campi opzionali: place, detail, bullets, dates possono mancare o essere vuoti
 # ============================================================================
 
 meta:
@@ -16,21 +17,23 @@ meta:
   location:
     it: Samone (TN), Italia
     en: Samone (TN), Italy
-  email: daniele.trisotto@studenti.unitn.it
+  email: danieletrisotto03@gmail.com
   # Il telefono NON sta qui (questo file è pubblico su GitHub): va in private.yaml
-  photo: foto.jpg      # ritratto quadrato in questa cartella; se il file manca il CV esce senza foto
+  photo: foto.jpg      # ritratto 4:5 (o quadrato) in questa cartella; se il file manca il CV esce senza foto
+  photo_pdf_shift: 0.3 # cm: sposta in basso la foto nel cerchio del PDF (mostra più parte alta)
   links:               # mostrati sul sito; con  pdf: true  anche nel PDF
     - {label: GitHub, text: DanTrisi, url: "https://github.com/DanTrisi"}
-  site_url: ""         # quando il sito è online: "https://dantrisi.github.io/CV/" (compare in fondo al PDF)
+  site_url: "https://dantrisi.github.io/CV/"         # quando il sito è online: "https://dantrisi.github.io/CV/" (compare in fondo al PDF)
 
 labels:
   education:  {it: Formazione,                 en: Education}
-  coursework: {it: Corsi rilevanti,            en: Relevant Coursework}
   projects:   {it: Progetti tecnici,           en: Technical Projects}
+  experience: {it: Esperienze,                 en: Experience}
   skills:     {it: Competenze tecniche,        en: Technical Skills}
   languages:  {it: Lingue,                     en: Languages}
+  languages_other: {it: Lingue e altre informazioni, en: Languages & other information}
   awards:     {it: Premi e borse di studio,    en: Awards and Scholarships}
-  extra:      {it: Attività extracurricolari,  en: Extracurricular Activities}
+  extra:      {it: Attività di volontariato,   en: Volunteering}
   thesis:     {it: Tesi,                       en: Thesis}
   download:   {it: Scarica il PDF,             en: Download PDF}
   web_version: {it: Versione web,              en: Web version}
@@ -44,8 +47,8 @@ education:
       en: M.Sc. in Mechatronics Engineering
     dates: {it: 2025 – oggi, en: 2025 – present}
     place:
-      it: Università di Trento – attualmente al secondo anno
-      en: University of Trento, Italy – currently in 2nd year
+      it: Università di Trento – curriculum Electronics & Robotics, secondo anno
+      en: University of Trento, Italy – Electronics & Robotics curriculum, 2nd year
     detail: {it: "Media: 28,1/30", en: "GPA: 28.1/30"}
 
   - title:
@@ -58,7 +61,7 @@ education:
     detail: {it: "Voto: 110/110 *e lode*", en: "Final grade: 110/110 *cum laude*"}
     thesis:
       it: "“Una piattaforma hardware per la simulazione dei sistemi di conversione eolica: struttura e prospettive di utilizzo” – Relatrice: Prof.ssa Elisabetta Tedeschi"
-      en: "“Una piattaforma hardware per la simulazione dei sistemi di conversione eolica: struttura e prospettive di utilizzo” (*A hardware platform for the simulation of wind energy conversion systems: structure and prospects of use*) – Supervisor: Prof. Elisabetta Tedeschi"
+      en: "“Una piattaforma hardware per la simulazione dei sistemi di conversione eolica: struttura e prospettive di utilizzo” (*A hardware platform for simulating wind energy conversion systems: structure and prospects*) – Supervisor: E. Tedeschi"
 
   - title:
       it: Diploma di Istituto Tecnico – indirizzo Automazione
@@ -68,16 +71,6 @@ education:
       it: ITT “Michelangelo Buonarroti”, Trento
       en: ITT “Michelangelo Buonarroti”, Trento, Italy
     detail: {it: "Voto: 100/100", en: "Final grade: 100/100"}
-
-coursework:
-  - it: "**Produzione e lavorazioni:** Digital Manufacturing (CNC, G-code, sistemi multi-agente), Precision Engineering, Materiali e Metallurgia, Meccanica."
-    en: "**Manufacturing & machining:** Digital Manufacturing (CNC, G-code, multi-agent systems), Precision Engineering, Materials and Metallurgy, Mechanics."
-  - it: "**Misure, segnali e dati:** Digital Signal Processing, Misure Meccaniche e Termiche, Analisi dei Dati e Statistica."
-    en: "**Measurements, signals & data:** Digital Signal Processing, Mechanical and Thermal Measurements, Data Analysis and Statistics."
-  - it: "**Azionamenti elettrici ed energia:** Electric Drives for the Energy Transition (macchine elettriche e loro controllo, efficienza energetica)."
-    en: "**Electrical drives & energy:** Electric Drives for the Energy Transition (electrical machines and their control, energy efficiency)."
-  - it: "**Dinamica:** Mechanical Vibrations (analisi modale, funzioni di risposta in frequenza, vibrazioni random, dinamica non lineare), modellazione di sistemi multibody e meccatronici."
-    en: "**Dynamics:** Mechanical Vibrations (modal analysis, frequency response functions, random vibrations, nonlinear dynamics), Multibody and mechatronic system modelling."
 
 projects:
   - title:
@@ -93,13 +86,63 @@ projects:
       - it: Integrazione nel framework distribuito multi-agente MADS (Prof. P. Bosetti); il kernel scambia dati in rete con una Functional Mock-up Unit (FMU) che simula la macchina utensile e con un visualizzatore della macchina.
         en: "Integration into the MADS multi-agent distributed framework (Prof. P. Bosetti): the kernel exchanges data over the network with a Functional Mock-up Unit (FMU) simulating the machine tool and with a machine visualizer."
 
+  - title:
+      it: Challenge ECIU MASSMa II – Multi-Agent Systems for Smart Machining
+      en: ECIU Challenge MASSMa II – Multi-Agent Systems for Smart Machining
+    dates: 2026
+    place:
+      it: Corso internazionale ECIU, con una settimana in presenza a Tolosa (Francia)
+      en: ECIU international course, with an on-site week in Toulouse (France)
+    bullets:
+      - it: Raccolta ed elaborazione dei dati di lavorazione per migliorare le prestazioni energetiche e produttive.
+        en: Collection and processing of machining data to improve energy and production performance.
+
+  - title:
+      it: Stima dello stato per robot mobili da odometria e lidar
+      en: State estimation for mobile robots from odometry and lidar
+    dates: {it: in corso, en: ongoing}
+    bullets:
+      - it: "Progetto in team del corso Robotic Perception and Action: stima dello stato che integra odometria e lidar."
+        en: "Team project, Robotic Perception and Action course: state estimation integrating odometry and lidar."
+
+  - title:
+      it: Lettura dei pettorali su sistema embedded a bassissimo consumo
+      en: Bib number reading on an ultra-low-power embedded system
+    dates: {it: in avvio, en: starting}
+    bullets:
+      - it: Progetto in team – sistema embedded a batteria con fotocamera e TinyML per leggere i pettorali all'arrivo delle gare.
+        en: Team project – battery-powered embedded system (camera, TinyML) reading bib numbers at race finish lines.
+
+experience:
+  - title:
+      it: Tutor didattico
+      en: Teaching tutor
+    dates: {it: "gen–giu 2026", en: "Jan–Jun 2026"}
+    place:
+      it: Tecnica delle Costruzioni Meccaniche (Prof. V. Fontanari), Università di Trento
+      en: Mechanical Design – “Tecnica delle Costruzioni Meccaniche” (Prof. V. Fontanari)
+  - title:
+      it: Operaio agricolo
+      en: Farm worker
+    dates: {it: "estati 2019–2021", en: "Summers 2019–2021"}
+    place:
+      it: Az. agr. Rinaldi Alberto – piccoli frutti, sfalcio, serre e impianti di irrigazione
+      en: Rinaldi Alberto farm – berries, mowing, greenhouses and irrigation systems
+  - title:
+      it: Operaio edile
+      en: Construction worker
+    dates: {it: "2022–2023", en: "2022–2023"}
+    place:
+      it: Edilmenon S.r.l. – edifici in mattone e cemento, tetti in legno, carichi con gru
+      en: Edilmenon S.r.l. – brick and concrete buildings, timber roofs, crane load handling
+
 skills:
-  - it: "**Programmazione:** C++ (avanzato), Python (buono), Wolfram Mathematica (buono), MATLAB (intermedio)."
-    en: "**Programming:** C++ (advanced), Python (good), Wolfram Mathematica (good), MATLAB (intermediate)."
-  - it: "**Reti e IoT:** sistemi multi-agente in rete con il framework MADS; basi di messaggistica publish/subscribe (MQTT)."
-    en: "**Networking & IoT:** networked multi-agent systems with the MADS framework; basics of publish/subscribe messaging (MQTT)."
-  - it: "**Strumenti:** CMake, VS Code, LaTeX."
-    en: "**Tools:** CMake, VS Code, LaTeX."
+  - it: "**Programmazione e strumenti:** C++ (avanzato), Python (buono), Wolfram Mathematica (buono), MATLAB (intermedio), Simulink e R (basi); Linux, Git e GitHub, CMake, VS Code, LaTeX."
+    en: "**Programming & tools:** C++ (advanced), Python (good), Wolfram Mathematica (good), MATLAB (intermediate), Simulink and R (basics); Linux, Git and GitHub, CMake, VS Code, LaTeX."
+  - it: "**Robotica e controllo:** ROS; controllo classico e ottimo, Task-Space Inverse Dynamics (TSID), reinforcement learning; controllo di macchine asincrone e PMSM."
+    en: "**Robotics & control:** ROS; classical and optimal control, Task-Space Inverse Dynamics (TSID), reinforcement learning; control of induction machines and PMSM."
+  - it: "**Automazione, embedded e reti:** PLC (esperienza di base, dalle scuole superiori); microcontrollori e sistemi embedded (corso in corso); sistemi multi-agente in rete con il framework MADS; basi di MQTT."
+    en: "**Automation, embedded & networking:** PLC (basic experience, from high school); microcontrollers and embedded systems (ongoing course); networked multi-agent systems with the MADS framework; MQTT basics."
 
 languages:
   - name: {it: Italiano, en: Italian}
@@ -109,19 +152,23 @@ languages:
       it: B2, certificato dal Centro Linguistico di Ateneo dell'Università di Trento
       en: B2, certified by the University of Trento Language Centre
 
+other:
+  - it: "**Patente B**, automunito, disponibile a trasferte"
+    en: "**Driving licence B**, own car, willing to travel"
+  - it: "**Interessi:** corsa in montagna"
+    en: "**Interests:** mountain running"
+
 awards:
   - text:
-      it: "**Premio di studio al merito** – Cassa Rurale Valsugana e Tesino, per la laurea triennale"
-      en: "**Merit study award** – Cassa Rurale Valsugana e Tesino, for the B.Sc. degree"
-    year: 2026
-  - text:
-      it: "**Premio di studio al merito** – Cassa Rurale Valsugana e Tesino, per il diploma di scuola superiore"
-      en: "**Merit study award** – Cassa Rurale Valsugana e Tesino, for the high school diploma"
-    year: 2022
+      it: "**Premio di studio al merito** – Cassa Rurale Valsugana e Tesino, per diploma e laurea triennale"
+      en: "**Merit study award** – Cassa Rurale Valsugana e Tesino, for high school diploma and B.Sc. degree"
+    year: 2022, 2026
 
 extra:
-  - it: "**Segretario – Pro Loco Samone APS** (da marzo 2026; associazione di promozione turistica e di eventi locali): documentazione amministrativa, bilancio e organizzazione di eventi locali all'interno di un gruppo di volontari."
-    en: "**Secretary – Pro Loco Samone APS** (since March 2026; local tourism and events association): administrative documentation, budgeting and organization of local events within a volunteer team."
+  - it: "**Segretario – Pro Loco Samone APS** (da marzo 2026): 5–8 eventi l'anno, il maggiore con circa 80 volontari; acquisti, fornitori e organizzazione; contabilità, bilancio e documentazione amministrativa."
+    en: "**Secretary – Pro Loco Samone APS** (since Mar 2026): 5–8 events/year, the largest with ~80 volunteers; purchasing, suppliers, organization, accounting, budget."
+  - it: "**Volontario attivo – Gruppo Giovani di Scurelle:** attività ed eventi sul territorio."
+    en: "**Active volunteer – Gruppo Giovani di Scurelle (youth group):** local activities and events."
 
 # Solo nel PDF
 privacy:

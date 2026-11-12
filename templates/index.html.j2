@@ -124,7 +124,7 @@
   .entry ul.list { margin-top: .8rem; gap: .5rem; font-size: .95rem; }
   ul.list strong { color: var(--primary); }
   ul.awards li { display: flex; justify-content: space-between; gap: 1rem; }
-  ul.awards .year { color: var(--accent-ink); font-weight: 700; }
+  ul.awards .year { color: var(--accent-ink); font-weight: 700; white-space: nowrap; }
   .prose { color: var(--body); }
   .prose strong { color: var(--primary); }
   .prose p:last-child { margin-bottom: 0; }
@@ -189,8 +189,9 @@
     <div><dt>{{ cv.labels.languages|t }}</dt><dd>{% for l in cv.languages %}{{ l.name|t }}{% if not loop.last %} · {% endif %}{% endfor %}</dd></div>
   </dl>
 
+  {% set n = namespace(v=0) %}
   <section class="cv-section" id="education">
-    <div class="section-heading"><span>01</span><h2>{{ cv.labels.education|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.education|t }}</h2></div>
     <div class="entries">
       {% for e in cv.education %}
       <article class="entry">
@@ -206,23 +207,15 @@
     </div>
   </section>
 
-  <section class="cv-section" id="coursework">
-    <div class="section-heading"><span>02</span><h2>{{ cv.labels.coursework|t }}</h2></div>
-    <ul class="list">
-      {% for c in cv.coursework %}
-      <li>{{ c|t }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-
   <section class="cv-section" id="projects">
-    <div class="section-heading"><span>03</span><h2>{{ cv.labels.projects|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.projects|t }}</h2></div>
     <div class="entries">
       {% for p in cv.projects %}
       <article class="entry">
         <p class="meta">{{ p.dates|t }}</p>
         <h3>{{ p.title|t }}</h3>
-        <p class="place">{{ p.place|t }}</p>
+        {% if p.place %}<p class="place">{{ p.place|t }}</p>{% endif %}
+
         <ul class="list">
           {% for b in p.bullets %}
           <li>{{ b|t }}</li>
@@ -233,8 +226,23 @@
     </div>
   </section>
 
+  <section class="cv-section" id="experience">
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.experience|t }}</h2></div>
+    <div class="entries">
+      {% for x in cv.experience %}
+      <article class="entry">
+        {% if x.dates %}<p class="meta">{{ x.dates|t }}</p>{% endif %}
+
+        <h3>{{ x.title|t }}</h3>
+        {% if x.place %}<p class="place">{{ x.place|t }}</p>{% endif %}
+
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
   <section class="cv-section" id="skills">
-    <div class="section-heading"><span>04</span><h2>{{ cv.labels.skills|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.skills|t }}</h2></div>
     <ul class="list">
       {% for s in cv.skills %}
       <li>{{ s|t }}</li>
@@ -243,16 +251,19 @@
   </section>
 
   <section class="cv-section" id="languages">
-    <div class="section-heading"><span>05</span><h2>{{ cv.labels.languages|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.languages_other|t }}</h2></div>
     <ul class="list">
       {% for l in cv.languages %}
       <li><strong>{{ l.name|t }}:</strong> {{ l.level|t }}</li>
+      {% endfor %}
+      {% for o in cv.other %}
+      <li>{{ o|t }}</li>
       {% endfor %}
     </ul>
   </section>
 
   <section class="cv-section" id="awards">
-    <div class="section-heading"><span>06</span><h2>{{ cv.labels.awards|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.awards|t }}</h2></div>
     <ul class="list awards">
       {% for a in cv.awards %}
       <li><span>{{ a.text|t }}</span><span class="year">{{ a.year|t }}</span></li>
@@ -261,7 +272,7 @@
   </section>
 
   <section class="cv-section" id="extra">
-    <div class="section-heading"><span>07</span><h2>{{ cv.labels.extra|t }}</h2></div>
+    <div class="section-heading"><span>{% set n.v = n.v + 1 %}{{ '%02d' % n.v }}</span><h2>{{ cv.labels.extra|t }}</h2></div>
     <div class="prose">
       {% for x in cv.extra %}
       <p>{{ x|t }}</p>
