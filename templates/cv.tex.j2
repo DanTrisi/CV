@@ -1,0 +1,168 @@
+% GENERATO da build.py a partire da cv.yaml -- non modificare il .tex generato:
+% i contenuti stanno in cv.yaml, l'impaginazione in templates/cv.tex.j2
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper, top=1.45cm, bottom=1.0cm, left=1.7cm, right=1.7cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[\VAR{ 'italian' if lang == 'it' else 'english' }]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{hyperref}
+
+% --- COLORI (gli stessi del sito) ---
+\definecolor{primarycolor}{HTML}{0F4C5C}   % petrolio
+\definecolor{accentcolor}{HTML}{D65A0E}    % arancio
+\definecolor{mutedcolor}{HTML}{56676E}
+\definecolor{rulecolor}{HTML}{B9C8CC}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarycolor,
+    urlcolor=primarycolor,
+    pdftitle={\VAR{ cv.meta.name|t } - Curriculum Vitae},
+    pdfauthor={\VAR{ cv.meta.name|t }}
+}
+
+\titleformat{\section}
+  {\color{primarycolor}\large\bfseries}
+  {}{0em}
+  {\textcolor{accentcolor}{\rule[0.02em]{0.6em}{0.6em}}\hspace{0.5em}\MakeUppercase}
+  [{\color{rulecolor}\titlerule}]
+\titlespacing*{\section}{0pt}{11pt}{5pt}
+
+\setlist{nosep, leftmargin=1.4em, topsep=2pt}
+\setlist[itemize]{label=\textcolor{accentcolor}{\textbullet}}
+\setlength{\parindent}{0pt}
+\frenchspacing
+\pagestyle{empty}
+
+\newcommand{\cvstrong}[1]{\textbf{\textcolor{primarycolor}{#1}}}
+\newcommand{\cvdate}[1]{\textbf{\textcolor{accentcolor}{#1}}}
+\newcommand{\sep}{\hspace{0.7em}\textcolor{accentcolor}{|}\hspace{0.7em}}
+% \entry{Titolo}{Date}{Sottotitolo}{Dettaglio a destra}
+\newcommand{\entry}[4]{%
+  \textbf{#1} \hfill \cvdate{#2}\\
+  {\color{mutedcolor}#3} \hfill #4\par}
+
+\begin{document}
+
+% --- BANDA COLORATA IN ALTO ---
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[primarycolor] (current page.north west) rectangle ([yshift=-0.42cm]current page.north east);
+  \fill[accentcolor] ([xshift=-5.2cm]current page.north east) rectangle ([yshift=-0.42cm]current page.north east);
+\end{tikzpicture}%
+% --- INTESTAZIONE ---
+\begin{minipage}[c]{\BLOCK{ if photo }\dimexpr\textwidth-3.3cm\relax\BLOCK{ else }\textwidth\BLOCK{ endif }}
+    {\fontsize{29}{32}\selectfont\bfseries\color{primarycolor}\VAR{ cv.meta.name|t }}\\[7pt]
+    {\large\color{accentcolor}\raggedright \VAR{ cv.meta.headline|t }\par}
+    \vspace{6pt}
+    {\small \VAR{ cv.meta.location|t }\sep
+    \href{mailto:\VAR{ cv.meta.email }}{\VAR{ cv.meta.email|t }}\BLOCK{ if cv.private.phone }\sep
+    \VAR{ cv.private.phone|t }\BLOCK{ endif }
+\BLOCK{ for l in cv.meta.links if l.pdf }
+    \sep \href{\VAR{ l.url }}{\VAR{ l.label|t }: \VAR{ l.text|t }}
+\BLOCK{ endfor }
+    \par}
+\end{minipage}%
+\BLOCK{ if photo }
+\hfill
+\begin{minipage}[c]{2.9cm}
+  \begin{tikzpicture}
+    \begin{scope}
+      \clip (0,0) circle (1.38cm);
+      \node at (0,0) {\includegraphics[width=2.76cm]{\VAR{ photo }}};
+    \end{scope}
+    \draw[accentcolor, line width=1.4pt] (0,0) circle (1.43cm);
+  \end{tikzpicture}
+\end{minipage}
+\BLOCK{ endif }
+
+\vspace{2pt}
+
+% --- FORMAZIONE ---
+\section{\VAR{ cv.labels.education|t }}
+
+\BLOCK{ for e in cv.education }
+\entry{\VAR{ e.title|t }}{\VAR{ e.dates|t }}
+{\VAR{ e.place|t }}{\VAR{ e.detail|t }}
+\BLOCK{ if e.thesis }
+\textit{\VAR{ cv.labels.thesis|t }:} \VAR{ e.thesis|t }
+\BLOCK{ endif }
+\BLOCK{ if not loop.last }
+
+\vspace{6pt}
+\BLOCK{ endif }
+\BLOCK{ endfor }
+
+% --- CORSI ---
+\section{\VAR{ cv.labels.coursework|t }}
+
+\begin{itemize}
+\BLOCK{ for c in cv.coursework }
+    \item \VAR{ c|t }
+\BLOCK{ endfor }
+\end{itemize}
+
+% --- PROGETTI ---
+\section{\VAR{ cv.labels.projects|t }}
+
+\BLOCK{ for p in cv.projects }
+\entry{\VAR{ p.title|t }}{\VAR{ p.dates|t }}
+{\VAR{ p.place|t }}{}
+\begin{itemize}
+\BLOCK{ for b in p.bullets }
+    \item \VAR{ b|t }
+\BLOCK{ endfor }
+\end{itemize}
+\BLOCK{ if not loop.last }
+
+\vspace{6pt}
+\BLOCK{ endif }
+\BLOCK{ endfor }
+
+% --- COMPETENZE ---
+\section{\VAR{ cv.labels.skills|t }}
+
+\begin{itemize}
+\BLOCK{ for s in cv.skills }
+    \item \VAR{ s|t }
+\BLOCK{ endfor }
+\end{itemize}
+
+% --- LINGUE ---
+\section{\VAR{ cv.labels.languages|t }}
+
+\BLOCK{ for l in cv.languages }
+\cvstrong{\VAR{ l.name|t }:} \VAR{ l.level|t }\BLOCK{ if not loop.last }\sep\BLOCK{ endif }
+\BLOCK{ endfor }
+
+
+% --- PREMI ---
+\section{\VAR{ cv.labels.awards|t }}
+
+\begin{itemize}
+\BLOCK{ for a in cv.awards }
+    \item \VAR{ a.text|t } \hfill \cvdate{\VAR{ a.year|t }}
+\BLOCK{ endfor }
+\end{itemize}
+
+% --- EXTRA ---
+\section{\VAR{ cv.labels.extra|t }}
+
+\BLOCK{ for x in cv.extra }
+\VAR{ x|t }\par
+\BLOCK{ endfor }
+
+\vfill
+{\footnotesize\color{mutedcolor}
+\BLOCK{ if cv.meta.site_url }
+\VAR{ cv.labels.web_version|t }: \url{\VAR{ cv.meta.site_url }}\par\vspace{2pt}
+\BLOCK{ endif }
+\VAR{ cv.privacy|t }\par}
+
+\end{document}

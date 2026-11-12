@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ cv.meta.name|t }} – Curriculum Vitae</title>
+<meta name="description" content="{{ cv.meta.headline|t }}">
+<meta name="theme-color" content="#0f4c5c">
+<link rel="alternate" hreflang="{{ other }}" href="{{ other_href }}">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f2f6f6; --paper: #ffffff; --ink: #14232a; --body: #33454c; --muted: #56676e;
+    --primary: #0f4c5c; --primary-deep: #0a3440; --accent: #e36414; --accent-ink: #b84c0a;
+    --line: #d3dcde; --tint: #dcebee; --on-primary: #ffffff; --on-deep-accent: #ffb27d;
+    --shadow: 0 18px 50px rgba(10, 52, 64, .14);
+    --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b181d; --paper: #12242b; --ink: #eaf2f4; --body: #c3d1d5; --muted: #93a6ac;
+      --primary: #7cc8d8; --primary-deep: #0f3a47; --accent: #ff8a3d; --accent-ink: #ff9b57;
+      --line: #25393f; --tint: #173039; --on-primary: #08242c; --on-deep-accent: #ffb27d;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+  body {
+    margin: 0; color: var(--ink); font: 1rem/1.65 var(--sans);
+    background:
+      radial-gradient(circle at 88% 6%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 26rem),
+      radial-gradient(circle at 4% 38%, color-mix(in srgb, var(--primary) 9%, transparent), transparent 30rem),
+      var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+  a { color: var(--primary); text-underline-offset: .2em; }
+  a:hover { color: var(--accent-ink); }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1, h2, h3 { line-height: 1.12; text-wrap: balance; }
+  .shell { width: min(1100px, calc(100% - 2.5rem)); margin-inline: auto; }
+
+  /* --- barra in alto --- */
+  .site-header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
+  }
+  .header-inner { display: flex; align-items: center; gap: 1rem; min-height: 4.2rem; }
+  .wordmark { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; color: var(--ink); font-weight: 700; white-space: nowrap; }
+  .wordmark span {
+    display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: .6rem;
+    background: var(--primary); color: var(--on-primary); font-size: .85rem; letter-spacing: .04em;
+  }
+  .header-actions { margin-left: auto; display: flex; align-items: center; gap: .8rem; }
+  .langs { display: flex; padding: .2rem; border: 1px solid var(--line); border-radius: 999px; font-size: .8rem; font-weight: 700; }
+  .langs a, .langs span { padding: .25rem .7rem; border-radius: 999px; text-decoration: none; color: var(--muted); }
+  .langs span { background: var(--primary); color: var(--on-primary); }
+  .button {
+    display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.25rem; border-radius: 999px;
+    background: var(--accent-ink); color: #fff; font-weight: 700; font-size: .9rem; text-decoration: none;
+    transition: transform .16s ease, background .16s ease;
+  }
+  .button:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-1px); }
+  .button.small { padding: .5rem 1rem; font-size: .8rem; }
+
+  /* --- hero --- */
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(13rem, .6fr);
+    gap: clamp(2rem, 7vw, 6rem); align-items: center;
+    padding-block: clamp(3rem, 8vw, 6rem) 3.5rem;
+  }
+  .eyebrow { margin-bottom: .9rem; color: var(--accent-ink); font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+  h1 { margin-bottom: 1rem; font-size: clamp(2.8rem, 8vw, 5.4rem); font-weight: 800; letter-spacing: -.045em; color: var(--primary); }
+  .headline { max-width: 36rem; margin-bottom: 1.8rem; font-size: 1.2rem; color: var(--body); }
+  .portrait-wrap { position: relative; width: min(100%, 19rem); margin-inline: auto; }
+  .portrait-wrap::before {
+    content: ""; position: absolute; inset: 1.1rem -1.1rem -1.1rem 1.1rem;
+    border-radius: 1.6rem; background: var(--accent);
+  }
+  .portrait-wrap::after {
+    content: ""; position: absolute; top: -1.2rem; left: -1.2rem; width: 4.5rem; height: 4.5rem;
+    background-image: radial-gradient(var(--primary) 1.5px, transparent 1.6px); background-size: .75rem .75rem;
+  }
+  .portrait {
+    position: relative; z-index: 1; display: block; width: 100%; height: auto; aspect-ratio: 4 / 5;
+    object-fit: cover; object-position: center 20%; border-radius: 1.6rem; box-shadow: var(--shadow);
+  }
+  .portrait.placeholder {
+    display: grid; place-items: center; background: var(--primary-deep); color: var(--on-deep-accent);
+    font-size: 4.5rem; font-weight: 800; letter-spacing: -.04em;
+  }
+
+  /* --- striscia dati --- */
+  .identity {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 3rem;
+    margin: 0 0 4rem; padding: 1.4rem 1.6rem; border-radius: 1.1rem;
+    background: var(--primary-deep); box-shadow: var(--shadow);
+  }
+  .identity dt { margin-bottom: .15rem; color: var(--on-deep-accent); font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .identity dd { margin: 0; color: #fff; font-weight: 600; overflow-wrap: anywhere; }
+  .identity a { color: #fff; }
+  .identity a:hover { color: var(--on-deep-accent); }
+
+  /* --- sezioni --- */
+  .cv-section {
+    display: grid; grid-template-columns: minmax(12rem, .7fr) minmax(0, 1.3fr);
+    gap: clamp(1.5rem, 7vw, 6rem); padding-block: 3rem; border-top: 1px solid var(--line);
+  }
+  .section-heading { position: sticky; top: 6rem; align-self: start; }
+  .section-heading span { display: block; margin-bottom: .5rem; color: var(--accent-ink); font-size: .78rem; font-weight: 800; letter-spacing: .15em; }
+  h2 { margin-bottom: 0; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; letter-spacing: -.03em; color: var(--ink); }
+  .entries { display: grid; gap: 1.6rem; }
+  .entry { padding: 1.3rem 1.5rem; border: 1px solid var(--line); border-left: 4px solid var(--primary); border-radius: .9rem; background: var(--paper); }
+  .entry h3 { margin-bottom: .3rem; font-size: 1.18rem; font-weight: 700; }
+  .entry .meta { margin-bottom: .2rem; color: var(--accent-ink); font-size: .84rem; font-weight: 700; }
+  .entry .place { margin-bottom: 0; color: var(--muted); }
+  .entry .detail { display: inline-block; margin-top: .7rem; padding: .2rem .7rem; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: .85rem; font-weight: 700; }
+  .entry p.note { margin: .8rem 0 0; color: var(--body); font-size: .95rem; }
+  ul.list { margin: 0; padding: 0; list-style: none; display: grid; gap: .8rem; color: var(--body); }
+  ul.list li { position: relative; padding-left: 1.3rem; }
+  ul.list li::before { content: ""; position: absolute; left: 0; top: .62em; width: .5rem; height: .5rem; border-radius: 2px; background: var(--accent); }
+  .entry ul.list { margin-top: .8rem; gap: .5rem; font-size: .95rem; }
+  ul.list strong { color: var(--primary); }
+  ul.awards li { display: flex; justify-content: space-between; gap: 1rem; }
+  ul.awards .year { color: var(--accent-ink); font-weight: 700; }
+  .prose { color: var(--body); }
+  .prose strong { color: var(--primary); }
+  .prose p:last-child { margin-bottom: 0; }
+
+  footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.8rem 2.6rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  footer p { margin: 0; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .portrait-wrap { order: -1; width: min(60%, 14rem); margin-inline: 0 auto; }
+    .cv-section { grid-template-columns: 1fr; gap: 1.2rem; padding-block: 2.2rem; }
+    .section-heading { position: static; }
+    .wordmark strong { display: none; }
+    .identity { margin-bottom: 2.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .button { transition: none; } }
+  @media print {
+    .site-header, .button { display: none; }
+    body { background: #fff; }
+    .entry, .cv-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="wordmark" href="#top"><span>{{ cv.meta.initials|t }}</span><strong>{{ cv.meta.name|t }}</strong></a>
+    <div class="header-actions">
+      <nav class="langs" aria-label="Language">
+        {% if lang == 'it' %}<span aria-current="page">IT</span><a href="{{ other_href }}" lang="en" hreflang="en">EN</a>
+        {% else %}<a href="{{ other_href }}" lang="it" hreflang="it">IT</a><span aria-current="page">EN</span>{% endif %}
+
+      </nav>
+      <a class="button small" href="{{ root }}{{ pdf }}">PDF</a>
+    </div>
+  </div>
+</header>
+
+<main class="shell" id="top">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Curriculum vitae</p>
+      <h1>{{ cv.meta.name|t }}</h1>
+      <p class="headline">{{ cv.meta.headline|t }}</p>
+      <a class="button" href="{{ root }}{{ pdf }}">{{ cv.labels.download|t }}</a>
+    </div>
+    <div class="portrait-wrap">
+      {% if photo %}
+      <img class="portrait" src="{{ root }}{{ photo }}" alt="{{ cv.meta.name|t }}" width="480" height="600">
+      {% else %}
+      <div class="portrait placeholder" aria-hidden="true">{{ cv.meta.initials|t }}</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <dl class="identity">
+    <div><dt>{{ cv.labels.location|t }}</dt><dd>{{ cv.meta.location|t }}</dd></div>
+    <div><dt>{{ cv.labels.email|t }}</dt><dd><a href="mailto:{{ cv.meta.email }}">{{ cv.meta.email|t }}</a></dd></div>
+    {% for l in cv.meta.links %}
+    <div><dt>{{ l.label|t }}</dt><dd><a href="{{ l.url }}" rel="me">{{ l.text|t }}</a></dd></div>
+    {% endfor %}
+    <div><dt>{{ cv.labels.languages|t }}</dt><dd>{% for l in cv.languages %}{{ l.name|t }}{% if not loop.last %} · {% endif %}{% endfor %}</dd></div>
+  </dl>
+
+  <section class="cv-section" id="education">
+    <div class="section-heading"><span>01</span><h2>{{ cv.labels.education|t }}</h2></div>
+    <div class="entries">
+      {% for e in cv.education %}
+      <article class="entry">
+        <p class="meta">{{ e.dates|t }}</p>
+        <h3>{{ e.title|t }}</h3>
+        <p class="place">{{ e.place|t }}</p>
+        {% if e.detail %}<span class="detail">{{ e.detail|t }}</span>{% endif %}
+
+        {% if e.thesis %}<p class="note"><em>{{ cv.labels.thesis|t }}:</em> {{ e.thesis|t }}</p>{% endif %}
+
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="cv-section" id="coursework">
+    <div class="section-heading"><span>02</span><h2>{{ cv.labels.coursework|t }}</h2></div>
+    <ul class="list">
+      {% for c in cv.coursework %}
+      <li>{{ c|t }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="cv-section" id="projects">
+    <div class="section-heading"><span>03</span><h2>{{ cv.labels.projects|t }}</h2></div>
+    <div class="entries">
+      {% for p in cv.projects %}
+      <article class="entry">
+        <p class="meta">{{ p.dates|t }}</p>
+        <h3>{{ p.title|t }}</h3>
+        <p class="place">{{ p.place|t }}</p>
+        <ul class="list">
+          {% for b in p.bullets %}
+          <li>{{ b|t }}</li>
+          {% endfor %}
+        </ul>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="cv-section" id="skills">
+    <div class="section-heading"><span>04</span><h2>{{ cv.labels.skills|t }}</h2></div>
+    <ul class="list">
+      {% for s in cv.skills %}
+      <li>{{ s|t }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="cv-section" id="languages">
+    <div class="section-heading"><span>05</span><h2>{{ cv.labels.languages|t }}</h2></div>
+    <ul class="list">
+      {% for l in cv.languages %}
+      <li><strong>{{ l.name|t }}:</strong> {{ l.level|t }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="cv-section" id="awards">
+    <div class="section-heading"><span>06</span><h2>{{ cv.labels.awards|t }}</h2></div>
+    <ul class="list awards">
+      {% for a in cv.awards %}
+      <li><span>{{ a.text|t }}</span><span class="year">{{ a.year|t }}</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="cv-section" id="extra">
+    <div class="section-heading"><span>07</span><h2>{{ cv.labels.extra|t }}</h2></div>
+    <div class="prose">
+      {% for x in cv.extra %}
+      <p>{{ x|t }}</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer>
+    <p>{{ cv.labels.updated|t }}: {{ today }}</p>
+    <p>© {{ cv.meta.name|t }}</p>
+  </footer>
+</main>
+</body>
+</html>
