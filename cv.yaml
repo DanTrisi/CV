@@ -137,12 +137,12 @@ experience:
       en: Edilmenon S.r.l. – brick and concrete buildings, timber roofs, crane load handling
 
 skills:
-  - it: "**Programmazione e strumenti:** C++ (avanzato), Python (buono), Wolfram Mathematica (buono), MATLAB (intermedio), Simulink e R (basi); Linux, Git e GitHub, CMake, VS Code, LaTeX."
-    en: "**Programming & tools:** C++ (advanced), Python (good), Wolfram Mathematica (good), MATLAB (intermediate), Simulink and R (basics); Linux, Git and GitHub, CMake, VS Code, LaTeX."
+  - it: "**Programmazione e strumenti:** C++ (avanzato), Python (buono), Wolfram Mathematica (buono), MATLAB (intermedio), Simulink e R (basi); Linux, Git/GitHub, CMake, LaTeX; sviluppo assistito da IA (Claude Code)."
+    en: "**Programming & tools:** C++ (advanced), Python (good), Wolfram Mathematica (good), MATLAB (intermediate), Simulink and R (basics); Linux, Git/GitHub, CMake, LaTeX; AI-assisted development (Claude Code)."
   - it: "**Robotica e controllo:** ROS; controllo classico e ottimo, Task-Space Inverse Dynamics (TSID), reinforcement learning; controllo di macchine asincrone e PMSM."
     en: "**Robotics & control:** ROS; classical and optimal control, Task-Space Inverse Dynamics (TSID), reinforcement learning; control of induction machines and PMSM."
-  - it: "**Automazione, embedded e reti:** PLC (esperienza di base, dalle scuole superiori); microcontrollori e sistemi embedded (corso in corso); sistemi multi-agente in rete con il framework MADS; basi di MQTT."
-    en: "**Automation, embedded & networking:** PLC (basic experience, from high school); microcontrollers and embedded systems (ongoing course); networked multi-agent systems with the MADS framework; MQTT basics."
+  - it: "**Automazione, embedded e reti:** PLC (esperienza di base, dalle scuole superiori); microcontrollori e sistemi embedded (corso in corso); sistemi multi-agente in rete con il framework MADS."
+    en: "**Automation, embedded & networking:** PLC (basic experience, from high school); microcontrollers and embedded systems (ongoing course); networked multi-agent systems with the MADS framework."
 
 languages:
   - name: {it: Italiano, en: Italian}
